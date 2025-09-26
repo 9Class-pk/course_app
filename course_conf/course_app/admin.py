@@ -11,7 +11,6 @@ from modeltranslation.admin import (TranslationAdmin, TranslationInlineModelAdmi
 
 
 
-
 admin.site.register(UserProfile)
 admin.site.register(Certificate)
 admin.site.register(Cart)
@@ -45,12 +44,13 @@ class CategoryAdmin(BaseTranslationAdmin):
     inlines = [SubCategoryInline]
 
 
-class AssignmentInline(TranslationTabularInline, nested_admin.NestedStackedInline):
+#course
+class AssignmentInline(nested_admin.NestedStackedInline, TranslationTabularInline):
     model = Assignment
     extra = 1
 
 
-class LessonInline(TranslationTabularInline, nested_admin.NestedStackedInline):
+class LessonInline(nested_admin.NestedStackedInline,TranslationTabularInline ):
     model = Lesson
     extra = 1
     inlines = [AssignmentInline]
@@ -63,13 +63,14 @@ class CourseAdmin(nested_admin.NestedModelAdmin, BaseTranslationAdmin):
 
 
 
-#2222
+#2222exam
 
-class OptionInline(nested_admin.NestedModelAdmin):
+class OptionInline(nested_admin.NestedStackedInline, TranslationTabularInline):
     model = Option
     extra = 1
 
-class QuestionsInline(TranslationTabularInline):
+
+class QuestionsInline(nested_admin.NestedStackedInline,TranslationTabularInline):
     model = Questions
     extra = 1
     inlines = [OptionInline]
@@ -77,7 +78,7 @@ class QuestionsInline(TranslationTabularInline):
 
 
 @admin.register(Exam)
-class ExamAdmin(BaseTranslationAdmin,):
+class ExamAdmin(nested_admin.NestedModelAdmin, BaseTranslationAdmin):
 
     inlines = [QuestionsInline]
 
