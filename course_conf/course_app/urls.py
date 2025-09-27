@@ -4,7 +4,7 @@ from .views import (UserProfileDetailAPIView, UserProfileListAPIView,
                     CategoryListAPI, CategoryDetailAPI,
                     SubCategoryListAPI, SubCategoryDetailAPI, CourseListAPI,
                     CourseDetailAPI, LessonView, AssignmentView, CertificateView,
-                    ExamListAPIView, ExamDetailAPIView, QuestionsView, OptionView)
+                    ExamListAPIView, ExamDetailAPIView, QuestionsView, OptionView, CommentView, CartView, CartItemView)
 
 
 router = DefaultRouter()
@@ -13,7 +13,9 @@ router.register('assignments', AssignmentView)
 router.register('certificates', CertificateView)
 router.register('questions', QuestionsView)
 router.register('options', OptionView)
-
+router.register('comment', CommentView)
+router.register('cart', CartView)
+router.register('cart/item', CartItemView)
 
 
 

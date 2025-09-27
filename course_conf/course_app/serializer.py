@@ -1,6 +1,6 @@
 from .models import (UserProfile, Category, SubCategory, Course,
                      Lesson, Assignment, Certificate, Exam,
-                     Questions, Option, )
+                     Questions, Option, Comment, Cart, CartItem )
 from rest_framework import serializers
 
 
@@ -103,4 +103,19 @@ class ExamDetailSerializer(serializers.ModelSerializer):
         fields = ['exam_name', 'duration', 'questions0',]
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
 
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = '__all__'
+
+
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = '__all__'
