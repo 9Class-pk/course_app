@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
+from multiselectfield import MultiSelectField
 
 
 class UserProfile(AbstractUser):
@@ -44,7 +45,7 @@ class Course(models.Model):
     ('middle', 'middle'),
     ('advanced', 'advanced')
     )
-    level = models.CharField(max_length=32, choices=LEVEL_CHOICES)
+    level = MultiSelectField(max_length=32, choices=LEVEL_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     LANGUAGE_CHOICES = (
         ('russian', 'russian'),
@@ -53,7 +54,8 @@ class Course(models.Model):
         ('german', 'german'),
         ('france', 'france'),
     )
-    language = models.CharField(max_length=32, choices=LANGUAGE_CHOICES, default='russian')
+    language = MultiSelectField(max_length=32, choices=LANGUAGE_CHOICES, default='russian',
+                                min_choices=1, max_choices=5)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     instructor = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='instructors')
@@ -93,7 +95,7 @@ class Exam(models.Model):
 
 
 class Questions(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='questions0')
     question_title = models.CharField(max_length=50)
     passing_score = models.PositiveSmallIntegerField()
 
@@ -102,12 +104,12 @@ class Questions(models.Model):
 
 
 class Option(models.Model):
-    questions = models.ForeignKey(Questions, on_delete=models.CASCADE)
-    option_title = models.CharField(max_length=32)
+    question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='options0')
+    option_title = models.CharField(max_length=100)
     answer = models.BooleanField()
 
     def __str__(self):
-        return f'{self.questions}, {self.option_title}'
+        return f'{self.question}, {self.option_title}'
 
 
 class Certificate(models.Model):
@@ -143,4 +145,4 @@ class CartItem(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.cart__user}, {self.course}'
+        return f'{self.cart.user}, {self.course}'

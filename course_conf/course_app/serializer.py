@@ -1,4 +1,6 @@
-from .models import UserProfile, Category, SubCategory, Course, Lesson, Assignment, Certificate
+from .models import (UserProfile, Category, SubCategory, Course,
+                     Lesson, Assignment, Certificate, Exam,
+                     Questions, Option, )
 from rest_framework import serializers
 
 
@@ -17,7 +19,7 @@ class LessonSerializer(serializers.ModelSerializer):
 class AssignmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assignment
-        fields = '__all__'
+        fields = ['id', 'title', 'description', 'due_date', 'lesson', 'students']
 
 
 class CourseListSerializer(serializers.ModelSerializer):
@@ -71,3 +73,34 @@ class CertificateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certificate
         fields = '__all__'
+
+
+class ExamListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
+        fields = ['id', 'exam_name',]
+
+
+class OptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Option
+        fields = ['id', 'option_title', 'answer', 'questions']
+
+
+class QuestionsSerializer(serializers.ModelSerializer):
+    options0 = OptionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Questions
+        fields = ['id', 'question_title', 'passing_score',  'options0' ]
+
+
+class ExamDetailSerializer(serializers.ModelSerializer):
+    questions0 = QuestionsSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Exam
+        fields = ['exam_name', 'duration', 'questions0',]
+
+
+
