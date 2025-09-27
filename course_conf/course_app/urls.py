@@ -1,10 +1,15 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,)
 from .views import (UserProfileDetailAPIView, UserProfileListAPIView,
                     CategoryListAPI, CategoryDetailAPI,
                     SubCategoryListAPI, SubCategoryDetailAPI, CourseListAPI,
                     CourseDetailAPI, LessonView, AssignmentView, CertificateView,
-                    ExamListAPIView, ExamDetailAPIView, QuestionsView, OptionView, CommentView, CartView, CartItemView)
+                    ExamListAPIView, ExamDetailAPIView, QuestionsView, OptionView,
+                    CommentView, CartView, CartItemView, RegisterView, LogoutView,
+                    TokenBlacklistView, TokenRefreshView, TokenObtainPairView)
 
 
 router = DefaultRouter()
@@ -31,5 +36,10 @@ urlpatterns = [
     path('exam/<int:pk>/', ExamDetailAPIView.as_view(), name='exam_detail'),
     path('users/', UserProfileListAPIView.as_view(), name='user_list'),
     path('users/<int:pk>/', UserProfileDetailAPIView.as_view(), name='user_detail'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('', include(router.urls)),
 ]

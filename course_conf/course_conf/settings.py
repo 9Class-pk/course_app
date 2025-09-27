@@ -45,6 +45,8 @@ DJANGO_APPS = [
 
 THIRD_PARTY = [
     'rest_framework',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'course_app',
     "phonenumber_field",
     'django_filters',
@@ -165,12 +167,19 @@ AUTH_USER_MODEL = "course_app.UserProfile"
 
 
 REST_FRAMEWORK = {
+    #django-filter
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ),
+    # django-jwt-simple
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework_simplejwt.authentication.JWTAuthentication',),
+
+    # Pagination
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 3,
+
 
 }
