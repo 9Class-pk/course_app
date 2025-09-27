@@ -9,7 +9,7 @@ from .views import (UserProfileDetailAPIView, UserProfileListAPIView,
                     CourseDetailAPI, LessonView, AssignmentView, CertificateView,
                     ExamListAPIView, ExamDetailAPIView, QuestionsView, OptionView,
                     CommentView, CartView, CartItemView, RegisterView, LogoutView,
-                    TokenBlacklistView, TokenRefreshView, TokenObtainPairView)
+                    TokenBlacklistView, )
 
 
 router = DefaultRouter()
