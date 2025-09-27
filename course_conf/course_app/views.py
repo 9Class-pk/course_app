@@ -105,7 +105,7 @@ class OptionView(viewsets.ModelViewSet):
 
 
 class CommentView(viewsets.ModelViewSet):
-    queryset = Comment
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
 
