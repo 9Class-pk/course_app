@@ -4,13 +4,17 @@ from rest_framework import viewsets, filters, generics, permissions
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsOwner, IsStudent, IsTeacher
 from .models import (UserProfile, Category, SubCategory, Course, Lesson,
-                     Assignment, Certificate, Exam, Questions, Option)
+                     Assignment, Certificate, Exam, Questions, Option,
+                       Comment, Cart, CartItem)
+
+
 
 from .serializer import (UserProfileSerializer, CategoryListSerializer, CategoryDetailSerializer,
                          SubCategoryListSerializer, SubCategoryDetailSerializer,
                          CourseListSerializer, CourseDetailSerializer,
                          LessonSerializer, AssignmentSerializer, CertificateSerializer,
-                         ExamListSerializer, ExamDetailSerializer, QuestionsSerializer, OptionSerializer)
+                         ExamListSerializer, ExamDetailSerializer, QuestionsSerializer, OptionSerializer,
+                         CartSerializer, CartItemSerializer, CommentSerializer)
 
 class UserProfileListAPIView(generics.ListAPIView):
     queryset = UserProfile.objects.all()
@@ -98,3 +102,18 @@ class QuestionsView(viewsets.ModelViewSet):
 class OptionView(viewsets.ModelViewSet):
     queryset = Option.objects.all()
     serializer_class = OptionSerializer
+
+
+class CommentView(viewsets.ModelViewSet):
+    queryset = Comment
+    serializer_class = CommentSerializer
+
+
+class CartView(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+
+class CartItemView(viewsets.ModelViewSet):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
