@@ -104,7 +104,8 @@ class Questions(models.Model):
 
 
 class Option(models.Model):
-    question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='options0')
+    question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='options0', null=True,
+        blank=True)
     option_title = models.CharField(max_length=100)
     answer = models.BooleanField()
 

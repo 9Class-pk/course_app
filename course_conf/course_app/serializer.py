@@ -84,7 +84,7 @@ class ExamListSerializer(serializers.ModelSerializer):
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Option
-        fields = ['id', 'option_title', 'answer', 'questions']
+        fields = ['option_title', 'answer', ]
 
 
 class QuestionsSerializer(serializers.ModelSerializer):
