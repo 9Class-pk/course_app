@@ -75,11 +75,13 @@ class CourseDetailAPI(generics.RetrieveAPIView):
 class CourseCreateListAPI(generics.CreateAPIView ):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    permission_classes = [IsTeacher]
 
 
 class CourseCreateDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    permission_classes = [IsTeacher]
 
 
 
