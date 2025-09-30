@@ -74,6 +74,15 @@ class AssignmentSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'description', 'due_date', 'lesson', 'students']
 
 
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['id', 'course_name', 'course_image', 'course_video',
+                  'description', 'level', 'price', 'language',
+                  'category', 'sub_category', 'instructor']
+
+
+
 class CourseListSerializer(serializers.ModelSerializer):
     instructor = UserProfileSerializer(read_only=True)
     class Meta:

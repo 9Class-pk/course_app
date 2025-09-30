@@ -9,7 +9,7 @@ from .views import (UserProfileDetailAPIView, UserProfileListAPIView,
                     CourseDetailAPI, LessonView, AssignmentView, CertificateView,
                     ExamListAPIView, ExamDetailAPIView, QuestionsView, OptionView,
                     CommentView, CartView, CartItemView, RegisterView, LogoutView,
-                    TokenBlacklistView, )
+                    TokenBlacklistView, CourseCreateListAPI, CourseCreateDetailAPI)
 
 
 router = DefaultRouter()
@@ -32,6 +32,8 @@ urlpatterns = [
     path('sub_categories/<int:pk>/', SubCategoryDetailAPI.as_view(), name='subcategory_detail'),
     path('courses/', CourseListAPI.as_view(), name='course_list'),
     path('courses/<int:pk>/', CourseDetailAPI.as_view(), name='course_detail'),
+    path('course_create/', CourseCreateListAPI.as_view(), name='course_list_create'),
+    path('course_create/<int:pk>/', CourseCreateDetailAPI.as_view(), name='course_detail_create'),
     path('exam/', ExamListAPIView.as_view(), name='exam_list'),
     path('exam/<int:pk>/', ExamDetailAPIView.as_view(), name='exam_detail'),
     path('users/', UserProfileListAPIView.as_view(), name='user_list'),

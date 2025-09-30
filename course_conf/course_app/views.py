@@ -18,7 +18,7 @@ from .serializer import (UserProfileSerializer, CategoryListSerializer, Category
                          LessonSerializer, AssignmentSerializer, CertificateSerializer,
                          ExamListSerializer, ExamDetailSerializer, QuestionsSerializer, OptionSerializer,
                          CartSerializer, CartItemSerializer, CommentSerializer, UserLoginSerializer,
-                         UserRegisterSerializer,)
+                         UserRegisterSerializer, CourseSerializer)
 
 class UserProfileListAPIView(generics.ListAPIView):
     queryset = UserProfile.objects.all()
@@ -70,6 +70,17 @@ class CourseDetailAPI(generics.RetrieveAPIView):
     search_fields = ["course_name"]
     ordering_fields = ["price", "created_at"]
     ordering = ["-created_at"]
+
+
+class CourseCreateListAPI(generics.CreateAPIView ):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+
+class CourseCreateDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
 
 
 class LessonView(viewsets.ModelViewSet):
