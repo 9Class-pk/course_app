@@ -2,7 +2,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters, generics, permissions, status
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsOwner, IsStudent, IsTeacher
+from .permissions import IsOwner, IsStudent, IsTeacher, IsTeacherOwner
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
 from rest_framework_simplejwt.views import TokenBlacklistView
@@ -23,6 +23,7 @@ from .serializer import (UserProfileSerializer, CategoryListSerializer, Category
 class UserProfileListAPIView(generics.ListAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 
 
@@ -35,26 +36,31 @@ class UserProfileDetailAPIView(generics.RetrieveUpdateAPIView):
 class CategoryListAPI(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryListSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class CategoryDetailAPI(generics.RetrieveAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryDetailSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class SubCategoryListAPI(generics.ListAPIView):
     queryset = SubCategory.objects.all()
     serializer_class = SubCategoryListSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class SubCategoryDetailAPI(generics.RetrieveAPIView):
     queryset = SubCategory.objects.all()
     serializer_class = SubCategoryDetailSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class CourseListAPI(generics.ListAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseListSerializer
+    permission_classes = [permissions.AllowAny]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['category', 'sub_category', 'price', 'level', 'language']
     search_fields = ["course_name"]
@@ -65,6 +71,7 @@ class CourseListAPI(generics.ListAPIView):
 class CourseDetailAPI(generics.RetrieveAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseDetailSerializer
+    permission_classes = [permissions.AllowAny]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['category', 'sub_category', 'price', 'level', 'language']
     search_fields = ["course_name"]
@@ -75,52 +82,61 @@ class CourseDetailAPI(generics.RetrieveAPIView):
 class LessonView(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsTeacherOwner]
 
 
 class AssignmentView(viewsets.ModelViewSet):
     queryset = Assignment.objects.all()
     serializer_class = AssignmentSerializer
-    permission_classes = [IsTeacher]
+    permission_classes = [IsTeacherOwner]
 
 
 class CertificateView(viewsets.ModelViewSet):
     queryset = Certificate.objects.all()
     serializer_class = CertificateSerializer
+    permission_classes = [IsTeacherOwner]
 
 
 class ExamListAPIView(generics.ListAPIView):
     queryset = Exam.objects.all()
     serializer_class = ExamListSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class ExamDetailAPIView(generics.RetrieveAPIView):
     queryset = Exam.objects.all()
     serializer_class = ExamDetailSerializer
+    permission_classes = [IsTeacherOwner]
 
 
 class QuestionsView(viewsets.ModelViewSet):
     queryset = Questions.objects.all()
     serializer_class = QuestionsSerializer
+    permission_classes = [IsTeacherOwner]
 
 
 class OptionView(viewsets.ModelViewSet):
     queryset = Option.objects.all()
     serializer_class = OptionSerializer
+    permission_classes = [IsTeacherOwner]
 
 
 class CommentView(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [IsStudent]
 
 
 class CartView(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+    permission_classes = [IsStudent]
 
 
 class CartItemView(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
+    permission_classes = [IsStudent]
 
 
 #
