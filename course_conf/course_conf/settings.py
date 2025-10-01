@@ -39,7 +39,7 @@ THIRD_PARTY = [
     "phonenumber_field",
     'django_filters',
     'nested_admin',
-    'multiselectfield',
+    'multiselectfield'  ,
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -169,5 +169,13 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 3,
 
+}
+from datetime import timedelta
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }

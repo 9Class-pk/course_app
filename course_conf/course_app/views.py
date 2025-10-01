@@ -18,7 +18,7 @@ from .serializer import (UserProfileSerializer, CategoryListSerializer, Category
                          LessonSerializer, AssignmentSerializer, CertificateSerializer,
                          ExamListSerializer, ExamDetailSerializer, QuestionsSerializer, OptionSerializer,
                          CartSerializer, CartItemSerializer, CommentSerializer, UserLoginSerializer,
-                         UserRegisterSerializer,)
+                         UserRegisterSerializer, CourseSerializer)
 
 class UserProfileListAPIView(generics.ListAPIView):
     queryset = UserProfile.objects.all()
@@ -77,6 +77,19 @@ class CourseDetailAPI(generics.RetrieveAPIView):
     search_fields = ["course_name"]
     ordering_fields = ["price", "created_at"]
     ordering = ["-created_at"]
+
+
+class CourseCreateListAPI(generics.CreateAPIView ):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [IsTeacher]
+
+
+class CourseCreateDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [IsTeacher]
+
 
 
 class LessonView(viewsets.ModelViewSet):
@@ -147,7 +160,14 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            "user": serializer.data,
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }, status=status.HTTP_201_CREATED)
 
 
 class CustomLoginView(TokenObtainPairView):
